@@ -5,4 +5,16 @@
     build: ./api
     ports:
       - 3000:3000
+    environment:
+      PG_CONNECTION_STRING: 
+  
+  database:
+    container_name: db
+    image: postgres
+    env_file: 
+      - database.env
+    volumes:
+      - ./volumes/:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
     
