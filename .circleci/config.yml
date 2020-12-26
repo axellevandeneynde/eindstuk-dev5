@@ -1,0 +1,14 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@3.0.0
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12.19
+    steps:
+      - checkout
+
+      - run: cd server && npm ci
+      - run: cd server && npm test
