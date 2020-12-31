@@ -3,7 +3,8 @@ ENV NODE_ENV=development
 
 COPY ["package.json", "package-lock.json*", "./"]
 
-RUN npm install
+RUN npm install -g nodemon
+RUN npm install 
 
 COPY . .
 

@@ -1,20 +1,31 @@
  version: "3.7"
-
  services:
   api:
+    depends_on:
+      - database
     build: ./api
     ports:
       - 3000:3000
     environment:
-      PG_CONNECTION_STRING: 
-  
+      PG_CONNECTION_STRING: postgres://example:example@db:5432/test
+      
+    volumes: 
+      - ./api/src:/usr/app/api/src
+    restart: always
+
   database:
     container_name: db
     image: postgres
-    env_file: 
-      - database.env
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: example
+      POSTGRES_DB: test
+      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - ./volumes/:/var/lib/postgresql/data/
     ports:
       - 5432:5432
+
+  
     
