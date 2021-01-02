@@ -9,6 +9,6 @@ jobs:
       - image: circleci/node:12.19
     steps:
       - checkout
-
+      - run: echo 127.0.0.1 devhost | sudo tee -a /etc/hosts
       - run: cd api && npm ci
       - run: cd api && npm test
