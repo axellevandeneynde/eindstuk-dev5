@@ -1,4 +1,4 @@
-const supertest = require('supertest');
+const request = require('supertest');
 const server = require('../../server');
 
 describe('test /add-new-source ', () => {
