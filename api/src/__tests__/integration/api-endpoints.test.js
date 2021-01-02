@@ -1,5 +1,5 @@
 const request = require('supertest');
-const server = require('../../server');
+const server = '0.0.0.0:3000';
 
 describe('/add-new-source api endpoint', async () => {
     test('should accept a post request with a new source object', async () => {
