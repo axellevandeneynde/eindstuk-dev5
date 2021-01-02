@@ -3,7 +3,7 @@ require('dotenv').config()
 const Helpers = require('./utils/helpers')
 const fs = require('fs');
 
-//--------- DB SETUP --------
+//--------- DB CONNECTION --------
 const pg = require('knex')({
     client: 'pg',
     version: '9.6',
@@ -13,7 +13,7 @@ const pg = require('knex')({
 initialiseTables();
 
 
-
+//--------- ROUTES --------
 const init = async () => {
 
     const server = Hapi.server({
@@ -21,13 +21,20 @@ const init = async () => {
         host: '0.0.0.0'
     });
 
-
+    //-- Create new source --
     server.route({
-        method: 'GET',
-        path: '/',
+        method: 'POST',
+        path: '/add-new-source',
         handler: (request, h) => {
-            console.log('handling request');
-            return 'Hello World!';
+            console.log('handling request /add-new-source');
+            let newSource = request.payload;
+            if (Helpers.checkIfValidSourceObject(newSource)) {
+                newSource.uuid = Helpers.generateUUID();
+                newSource.country_id = newSource.country_id.toUpperCase();
+                pg('publications')
+                    .insert(newSource)
+                return { status: `news source was added with uuid ${newSource.uuid}` }
+            }
         }
     });
 

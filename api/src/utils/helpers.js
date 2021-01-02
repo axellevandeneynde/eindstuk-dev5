@@ -1,5 +1,6 @@
 const { v1: uuidv1 } = require('uuid');
-// const fs = require('fs');
+
+
 const Helpers = {
     generateUUID: () => {
         const uuid = uuidv1();
@@ -980,6 +981,27 @@ const Helpers = {
             "code": "ZW"
         }
         ]
+    },
+    checkIfValidSourceObject: (source) => {
+        if (Object.prototype.toString.call(source) != '[object Object]') {
+            return false
+        }
+        const hasName = source.hasOwnProperty('name');
+        const hasCountryId = source.hasOwnProperty('country_id');
+        const hasUrl = source.hasOwnProperty('website_url');
+
+        if (hasName && hasCountryId && hasUrl) {
+            const countries = Helpers.getCountries();
+            let validCountryCode = false;
+            countries.forEach(country => {
+                if (country.code == source.country_id.toUpperCase()) {
+                    validCountryCode = true;
+                }
+            });
+            return validCountryCode;
+        } else {
+            return false
+        }
     }
 }
 
