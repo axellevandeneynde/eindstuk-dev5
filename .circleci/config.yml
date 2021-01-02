@@ -10,5 +10,5 @@ jobs:
     steps:
       - checkout
 
-      - run: cd server && npm ci
-      - run: cd server && npm test
+      - run: cd api && npm ci
+      - run: cd api && npm test
