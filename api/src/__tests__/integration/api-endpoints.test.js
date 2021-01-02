@@ -6,9 +6,9 @@ describe('/add-new-source api endpoint', () => {
         const res = await request(server)
             .post('/add-new-source')
             .send({
-                name: 'De Morgen',
-                country_ID: 'BE',
-                website_url: 'https://www.demorgen.be/'
+                name: 'de morgen',
+                country_id: 'BE',
+                website_url: 'https://demorgen.be'
             });
         expect(await res.statusCode).toEqual(200)
     });
