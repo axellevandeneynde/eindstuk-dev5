@@ -1,9 +1,11 @@
-const request = require('supertest');
+const supertest = require('supertest');
 const server = require('../../server.js')
+
+const request = supertest(server);
 
 describe('/add-new-source api endpoint', () => {
     test('should accept a post request with a new source object', async () => {
-        const res = await request(server)
+        const res = await request
             .post('/add-new-source')
             .send({
                 name: 'de morgen',
@@ -13,7 +15,7 @@ describe('/add-new-source api endpoint', () => {
         expect(await res.statusCode).toEqual(200)
     });
     test('should not accept a post request with invalid body', async () => {
-        const res = await request(server)
+        const res = await request
             .post('/add-new-source')
             .send([{
                 name: 'de morgen',
@@ -26,12 +28,12 @@ describe('/add-new-source api endpoint', () => {
 
 describe('/sources/:country_id endpiont get sources from country', () => {
     test('should not accept non existing country ID', async () => {
-        const res = await request(server)
+        const res = await request
             .get('/sources/LAP')
         expect(await res.statusCode).toEqual(400)
     })
     test('should respond data if existing country ID', async () => {
-        const res = await request(server)
+        const res = await request
             .get('/sources/BE')
         expect(await res.body).toBeDefined()
     })
