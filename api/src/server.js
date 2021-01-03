@@ -17,12 +17,13 @@ const pg = require('knex')({
     searchPath: ['knex', 'public'],
     connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : 'postgres://example:example@localhost:5432/test'
 });
-await initialiseTables();
+// initialiseTables();
 
 
 //--------- ROUTES --------
 //-- Create new source --
-app.post('/add-new-source', (req, res) => {
+app.post('/add-new-source', async (req, res) => {
+    await initialiseTables();
     console.log('handling request /add-new-source');
     let newSource = req.body;
     if (Helpers.checkIfValidSourceObject(newSource)) {
@@ -40,7 +41,8 @@ app.post('/add-new-source', (req, res) => {
 
 
 //-- get news sources --
-app.get('/sources/:country_id', (req, res) => {
+app.get('/sources/:country_id', async (req, res) => {
+    await initialiseTables();
     if (Helpers.checkIfValidCountryId(req.params.country_id)) {
         pg.from('publications')
             .select(['name', 'website_url', 'country_id'])
