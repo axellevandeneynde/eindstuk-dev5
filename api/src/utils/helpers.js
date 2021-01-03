@@ -1007,6 +1007,16 @@ const Helpers = {
         });
         return validCountryCode;
     },
+    checkIfValidPublicationNameObject: (req) => {
+        if (Object.prototype.toString.call(req) != '[object Object]') {
+            return false
+        }
+        if (req.hasOwnProperty('name')) {
+            return true
+        } else {
+            return false
+        }
+    }
 }
 
 module.exports = Helpers

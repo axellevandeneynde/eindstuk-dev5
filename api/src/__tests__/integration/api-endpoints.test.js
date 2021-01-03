@@ -38,3 +38,21 @@ describe('/sources/:country_id endpiont get sources from country', () => {
         expect(await res.body).toBeDefined()
     })
 })
+
+describe('/delete-publication with name', () => {
+    test('should only accept delete request with name', async () => {
+        const res = await request
+            .post('/delete-publication').send({
+                "bla": "bla"
+            })
+        expect(await res.statusCode).toEqual(400)
+    })
+    test('should respond to valid request positively', async () => {
+        const res = await request
+            .post('/delete-publication').send({
+                "name": "The new york times"
+            })
+        expect(await res.body).toHaveProperty('message')
+        expect(await res.statusCode).toEqual(200)
+    })
+})

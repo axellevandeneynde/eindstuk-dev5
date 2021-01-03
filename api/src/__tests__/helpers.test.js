@@ -22,3 +22,13 @@ describe('tests to check checkIfValidSourceObject()', () => {
         })).toBe(true)
     });
 })
+
+describe('test to check checkIfValidPublicationNameObject()', () => {
+    test('it has to be an object', () => {
+        expect(Helpers.checkIfValidPublicationNameObject([])).toBe(false)
+    })
+    test('it has to have a "name" property', () => {
+        expect(Helpers.checkIfValidPublicationNameObject({ bla: 'bla' })).toBe(false)
+        expect(Helpers.checkIfValidPublicationNameObject({ name: 'bla' })).toBe(true)
+    })
+})

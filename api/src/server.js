@@ -56,6 +56,18 @@ app.get('/sources/:country_id', async (req, res) => {
     }
 })
 
+//-- delete news source --
+app.post('/delete-publication', async (req, res) => {
+    await initialiseTables();
+    if (Helpers.checkIfValidPublicationNameObject(req.body)) {
+        await pg.from('publications').where({ name: req.body.name }).del();
+        res.status(200).send({ message: 'delete request handled' })
+    } else {
+        res.status(400).send()
+    }
+})
+
+
 
 
 //--------- INITIALISE TABLES --------
