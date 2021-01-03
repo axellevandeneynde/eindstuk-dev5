@@ -17,7 +17,7 @@ const pg = require('knex')({
     searchPath: ['knex', 'public'],
     connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : 'postgres://example:example@localhost:5432/test'
 });
-initialiseTables();
+await initialiseTables();
 
 
 //--------- ROUTES --------
@@ -83,26 +83,25 @@ async function initialiseTables() {
         } else {
             console.log("table countries exists")
         }
-    }).then(
-        await pg.schema.hasTable("publications").then(async (exists) => {
-            if (!exists) {
-                await pg.schema
-                    .createTable("publications", (table) => {
-                        table.increments();
-                        table.uuid("uuid");
-                        table.string("name");
-                        table.string("website_url");
-                        table.string("country_id").references("code").inTable("countries");
-                    })
-                    .then(async () => {
-                        console.log("created table publications");
-                    });
-            } else {
-                console.log('table publications exists')
-            }
-        })
-    )
+    });
 
+    await pg.schema.hasTable("publications").then(async (exists) => {
+        if (!exists) {
+            await pg.schema
+                .createTable("publications", (table) => {
+                    table.increments();
+                    table.uuid("uuid");
+                    table.string("name");
+                    table.string("website_url");
+                    table.string("country_id").references("code").inTable("countries");
+                })
+                .then(async () => {
+                    console.log("created table publications");
+                });
+        } else {
+            console.log('table publications exists')
+        }
+    });
 }
 
 module.exports = app;
