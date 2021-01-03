@@ -67,43 +67,40 @@ async function initialiseTables() {
         if (!exists) {
             await pg.schema
                 .createTable("countries", (table) => {
-                    table.increments();
-                    table.uuid("uuid");
+                    // table.increments();
                     table.string("name");
-                    table.string("code");
+                    table.string("code").unique().primary();
                 })
                 .then(async () => {
                     console.log("created table countries");
                     console.log("filling table countries...");
                     const countries = Helpers.getCountries();
                     countries.forEach(async (country) => {
-                        const uuid = Helpers.generateUUID();
-                        await pg.table("countries").insert({ uuid, name: country.name, code: country.code });
+                        await pg.table("countries").insert({ name: country.name, code: country.code });
                     });
                     console.log("table countries filled");
                 })
         } else {
             console.log("table countries exists")
         }
-    });
-
-    await pg.schema.hasTable("publications").then(async (exists) => {
-        if (!exists) {
-            await pg.schema
-                .createTable("publications", (table) => {
-                    table.increments();
-                    table.uuid("uuid");
-                    table.string("name");
-                    table.string("website_url");
-                    table.string("country_id").references("code").inTable("countries");
-                })
-                .then(async () => {
-                    console.log("created table publications");
-                });
-        } else {
-            console.log('table publications exists')
-        }
-    });
+    }).then(
+        pg.schema.hasTable("publications").then(async (exists) => {
+            if (!exists) {
+                await pg.schema
+                    .createTable("publications", (table) => {
+                        table.increments();
+                        table.uuid("uuid");
+                        table.string("name");
+                        table.string("website_url");
+                        table.string("country_id").references("code").inTable("countries");
+                    })
+                    .then(async () => {
+                        console.log("created table publications");
+                    });
+            } else {
+                console.log('table publications exists')
+            }
+        }))
 }
 
 module.exports = app;
