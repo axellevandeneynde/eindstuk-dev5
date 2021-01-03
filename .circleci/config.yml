@@ -17,4 +17,5 @@ jobs:
     steps:
       - checkout
       - run: cd api && npm ci
+      - run: cd api && npm start
       - run: cd api && npm test
