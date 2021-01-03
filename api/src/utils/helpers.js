@@ -991,18 +991,22 @@ const Helpers = {
         const hasUrl = source.hasOwnProperty('website_url');
 
         if (hasName && hasCountryId && hasUrl) {
-            const countries = Helpers.getCountries();
-            let validCountryCode = false;
-            countries.forEach(country => {
-                if (country.code == source.country_id.toUpperCase()) {
-                    validCountryCode = true;
-                }
-            });
-            return validCountryCode;
+            return Helpers.checkIfValidCountryId(source.country_id)
         } else {
             return false
         }
-    }
+    },
+
+    checkIfValidCountryId: (id) => {
+        const countries = Helpers.getCountries();
+        let validCountryCode = false;
+        countries.forEach(country => {
+            if (country.code == id.toUpperCase()) {
+                validCountryCode = true;
+            }
+        });
+        return validCountryCode;
+    },
 }
 
 module.exports = Helpers
