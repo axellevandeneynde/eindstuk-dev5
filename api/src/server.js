@@ -1,7 +1,15 @@
-const Hapi = require('@hapi/hapi');
+const express = require('express');
+const http = require('http');
+const bodyParser = require('body-parser');
 require('dotenv').config()
 const Helpers = require('./utils/helpers')
-const fs = require('fs');
+
+
+//--------- Server setup --------
+const app = express();
+http.Server(app);
+
+app.use(bodyParser.json());
 
 //--------- DB CONNECTION --------
 const pg = require('knex')({
@@ -14,41 +22,21 @@ initialiseTables();
 
 
 //--------- ROUTES --------
-const init = async () => {
+//-- Create new source --
+app.post('/add-new-source', (req, res) => {
+    console.log('handling request /add-new-source');
+    let newSource = req.body;
+    if (Helpers.checkIfValidSourceObject(newSource)) {
+        newSource.uuid = Helpers.generateUUID();
+        newSource.country_id = newSource.country_id.toUpperCase();
+        pg('publications')
+            .insert(newSource)
+        res.status(200).send({ message: `news source was added with uuid ${newSource.uuid}` })
+    } else {
+        res.status(400).send({ message: 'unvalid news source object' })
+    }
 
-    const server = Hapi.server({
-        port: 3000,
-        host: '0.0.0.0'
-    });
-
-    //-- Create new source --
-    server.route({
-        method: 'POST',
-        path: '/add-new-source',
-        handler: (request, h) => {
-            console.log('handling request /add-new-source');
-            let newSource = request.payload;
-            if (Helpers.checkIfValidSourceObject(newSource)) {
-                newSource.uuid = Helpers.generateUUID();
-                newSource.country_id = newSource.country_id.toUpperCase();
-                pg('publications')
-                    .insert(newSource)
-                return { status: `news source was added with uuid ${newSource.uuid}` }
-            }
-        }
-    });
-
-    await server.start();
-    // console.log('Server running on %s', server.info.uri);
-};
-
-process.on('unhandledRejection', (err) => {
-
-    console.log(err);
-    process.exit(1);
-});
-
-init();
+})
 
 
 //--------- INITIALISE TABLES --------
@@ -97,3 +85,5 @@ async function initialiseTables() {
         }
     });
 }
+
+module.exports = app;
