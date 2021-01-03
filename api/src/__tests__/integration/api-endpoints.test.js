@@ -12,4 +12,14 @@ describe('/add-new-source api endpoint', () => {
             });
         expect(await res.statusCode).toEqual(200)
     });
+    test('should not accept a post request with invalid body', async () => {
+        const res = await request(server)
+            .post('/add-new-source')
+            .send([{
+                name: 'de morgen',
+                country_id: 'BE',
+                bla: 'https://demorgen.be'
+            }]);
+        expect(await res.statusCode).toEqual(400)
+    });
 })

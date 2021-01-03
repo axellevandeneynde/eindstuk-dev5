@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 require('dotenv').config()
 const Helpers = require('./utils/helpers')
 
-
 //--------- Server setup --------
 const app = express();
 http.Server(app);
@@ -33,7 +32,7 @@ app.post('/add-new-source', (req, res) => {
             .insert(newSource)
         res.status(200).send({ message: `news source was added with uuid ${newSource.uuid}` })
     } else {
-        res.status(400).send({ message: 'unvalid news source object' })
+        res.status(400).send({ message: 'invalid news source object' })
     }
 
 })
