@@ -23,6 +23,7 @@ initialiseTables();
 //--------- ROUTES --------
 //-- Create new source --
 app.post('/add-new-source', (req, res) => {
+    initialiseTables();
     console.log('handling request /add-new-source');
     let newSource = req.body;
     if (Helpers.checkIfValidSourceObject(newSource)) {
@@ -41,6 +42,7 @@ app.post('/add-new-source', (req, res) => {
 
 //-- get news sources --
 app.get('/sources/:country_id', (req, res) => {
+    initialiseTables();
     if (Helpers.checkIfValidCountryId(req.params.country_id)) {
         pg.from('publications')
             .select(['name', 'website_url', 'country_id'])
