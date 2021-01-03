@@ -47,7 +47,7 @@ describe('/delete-publication with name', () => {
             })
         expect(await res.statusCode).toEqual(400)
     })
-    test('', async () => {
+    test('should respond to valid request positively', async () => {
         const res = await request
             .post('/delete-publication').send({
                 "name": "The new york times"
