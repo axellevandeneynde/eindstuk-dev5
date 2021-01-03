@@ -23,7 +23,6 @@ initialiseTables();
 //--------- ROUTES --------
 //-- Create new source --
 app.post('/add-new-source', (req, res) => {
-    initialiseTables();
     console.log('handling request /add-new-source');
     let newSource = req.body;
     if (Helpers.checkIfValidSourceObject(newSource)) {
@@ -42,7 +41,6 @@ app.post('/add-new-source', (req, res) => {
 
 //-- get news sources --
 app.get('/sources/:country_id', (req, res) => {
-    initialiseTables();
     if (Helpers.checkIfValidCountryId(req.params.country_id)) {
         pg.from('publications')
             .select(['name', 'website_url', 'country_id'])
@@ -85,24 +83,26 @@ async function initialiseTables() {
         } else {
             console.log("table countries exists")
         }
-    });
-    await pg.schema.hasTable("publications").then(async (exists) => {
-        if (!exists) {
-            await pg.schema
-                .createTable("publications", (table) => {
-                    table.increments();
-                    table.uuid("uuid");
-                    table.string("name");
-                    table.string("website_url");
-                    table.string("country_id").references("code").inTable("countries");
-                })
-                .then(async () => {
-                    console.log("created table publications");
-                });
-        } else {
-            console.log('table publications exists')
-        }
-    });
+    }).then(
+        await pg.schema.hasTable("publications").then(async (exists) => {
+            if (!exists) {
+                await pg.schema
+                    .createTable("publications", (table) => {
+                        table.increments();
+                        table.uuid("uuid");
+                        table.string("name");
+                        table.string("website_url");
+                        table.string("country_id").references("code").inTable("countries");
+                    })
+                    .then(async () => {
+                        console.log("created table publications");
+                    });
+            } else {
+                console.log('table publications exists')
+            }
+        })
+    )
+
 }
 
 module.exports = app;
