@@ -112,8 +112,7 @@ async function initialiseTables() {
             if (!exists) {
                 await pg.schema
                     .createTable("publications", (table) => {
-                        table.increments();
-                        table.uuid("uuid");
+                        table.uuid("uuid").unique().primary();
                         table.string("name");
                         table.string("website_url");
                         table.string("country_id").references("code").inTable("countries");
