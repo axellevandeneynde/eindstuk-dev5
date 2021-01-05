@@ -1,9 +1,9 @@
-const { v1: uuidv1 } = require('uuid');
-
+const { v4: uuidv4 } = require('uuid');
+const validator = require('validator');
 
 const Helpers = {
     generateUUID: () => {
-        const uuid = uuidv1();
+        const uuid = uuidv4();
         return uuid;
     },
     getCountries: () => {
@@ -1012,6 +1012,16 @@ const Helpers = {
             return false
         }
         if (req.hasOwnProperty('name')) {
+            return true
+        } else {
+            return false
+        }
+    },
+    isUuid: (uuid) => {
+        return validator.isUUID(uuid)
+    },
+    isValidPropertyNames: (object) => {
+        if (object.hasOwnProperty('name') || object.hasOwnProperty('website_url') || object.hasOwnProperty('country_id')) {
             return true
         } else {
             return false

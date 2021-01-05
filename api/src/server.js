@@ -21,7 +21,7 @@ const pg = require('knex')({
 
 
 //--------- ROUTES --------
-//-- Create new source --
+//-- Create news source --
 app.post('/add-new-source', async (req, res) => {
     await initialiseTables();
     console.log('handling request /add-new-source');
@@ -67,7 +67,19 @@ app.post('/delete-publication', async (req, res) => {
     }
 })
 
-
+//-- Update new source --
+app.post('/update-publication/:uuid', async (req, res) => {
+    await initialiseTables();
+    console.log('handling request /update-publication')
+    if (Helpers.isUuid(req.params.uuid) && Helpers.isValidPropertyNames(req.body)) {
+        await pg.from('publications')
+            .where({ uuid: req.params.uuid })
+            .update(req.body)
+        res.status(200).send({ message: 'update request handled' })
+    } else {
+        res.status(400).send()
+    }
+})
 
 
 //--------- INITIALISE TABLES --------
