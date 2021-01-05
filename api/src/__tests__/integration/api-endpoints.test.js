@@ -60,7 +60,7 @@ describe('/delete-publication with name', () => {
 describe('/update-publication with uuid', () => {
     test('should respond to valid request positively', async () => {
         const res = await request
-            .post('/update-publication/:515b69c0-473b-11eb-8799-adb231290ef6').send({
+            .post('/update-publication/:78204893-2c9e-4fd8-a1bb-8786034ddb2a').send({
                 name: 'the new york times'
             })
         expect(await res.body).toHaveProperty('message')
@@ -82,14 +82,14 @@ describe('/update-publication with uuid', () => {
     })
     test('should respond to request with wrong proprety names negatively', async () => {
         const res = await request
-            .post('/update-publication/:515b69c0-473b-11eb-8799-adb231290ef6').send({
+            .post('/update-publication/:78204893-2c9e-4fd8-a1bb-8786034ddb2a').send({
                 post: 'the new york times'
             })
         expect(await res.statusCode).toEqual(400)
     })
     test('should respond to request with empty body negatively', async () => {
         const res = await request
-            .post('/update-publication/:515b69c0-473b-11eb-8799-adb231290ef6').send({})
+            .post('/update-publication/:78204893-2c9e-4fd8-a1bb-8786034ddb2a').send({})
         expect(await res.statusCode).toEqual(400)
     })
 })
