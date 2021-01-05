@@ -56,3 +56,17 @@ describe('/delete-publication with name', () => {
         expect(await res.statusCode).toEqual(200)
     })
 })
+
+describe('/update-publication with uuid', () => {
+    test('should respond to valid request positively', async () => {
+        const res = await request
+            .post('/update-publication:515b69c0-473b-11eb-8799-adb231290ef6')
+        expect(await res.body).toHaveProperty('message')
+        expect(await res.statusCode).toEqual(200)
+    })
+    test('should respond to request without uuid negativelt', async () => {
+        const res = await request
+            .post('/update-publication:something')
+        expect(await res.statusCode).toEqual(400)
+    })
+})
