@@ -35,7 +35,7 @@ describe('test to check checkIfValidPublicationNameObject()', () => {
 
 describe('test to check isUuid', () => {
     test('has to be an uuid', () => {
-        expect(Helpers.isUuid('515b69c0-473b-11eb-8799-adb231290ef6').toBe(true))
-        expect(Helpers.isUuid('something').toBe(false))
+        expect(Helpers.isUuid('78204893-2c9e-4fd8-a1bb-8786034ddb2a')).toBe(true)
+        expect(Helpers.isUuid('something')).toBe(false)
     })
 })
