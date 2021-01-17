@@ -86,7 +86,7 @@ app.post('/update-publication/:uuid', async (req, res) => {
 * @params: 
 * @returns: 
 */
-
+//-- get-all-publications --
 app.get('/get-all-publications', async (req, res) => {
     await initialiseTables();
     console.log('handling request /get-all-publications')
@@ -99,6 +99,7 @@ app.get('/get-all-publications', async (req, res) => {
 
 })
 
+//-- get-all-countries --
 app.get('/get-all-countries', async (req, res) => {
     await initialiseTables();
     console.log('handling request /get-all-countries')
@@ -107,7 +108,20 @@ app.get('/get-all-countries', async (req, res) => {
         .then(data => {
             res.status(200).send(data);
         })
+})
 
+//-- delete-country --
+// DO NOT USE!!! THIS IS JUST FOR EXERCICE PURPOSE.
+app.get('/delete-country/:country_id', async (req, res) => {
+    await initialiseTables();
+    console.log('handling request /delete-all-countries')
+    if (Helpers.checkIfValidCountryId(req.params.country_id)) {
+        await pg.from('publications').where({ country_id: req.params.country_id }).del();
+        await pg.from('countries').where({ country_id: req.params.country_id }).del();
+        res.status(200).send({ message: 'delete request handled' })
+    } else {
+        res.status(400).send({ message: 'invalid country_id' })
+    }
 })
 
 
