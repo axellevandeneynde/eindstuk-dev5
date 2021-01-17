@@ -81,6 +81,35 @@ app.post('/update-publication/:uuid', async (req, res) => {
     }
 })
 
+/**
+* [description]
+* @params: 
+* @returns: 
+*/
+
+app.get('/get-all-publications', async (req, res) => {
+    await initialiseTables();
+    console.log('handling request /get-all-publications')
+    await pg.select('*')
+        .from('publications')
+        .join('countries', 'countries.country_id', '=', 'publications.country_id')
+        .then(data => {
+            res.status(200).send(data);
+        })
+
+})
+
+app.get('/get-all-countries', async (req, res) => {
+    await initialiseTables();
+    console.log('handling request /get-all-countries')
+    await pg.from('countries')
+        .select('*')
+        .then(data => {
+            res.status(200).send(data);
+        })
+
+})
+
 
 //--------- INITIALISE TABLES --------
 // Checks if tables already exist in DB, 
@@ -92,15 +121,15 @@ async function initialiseTables() {
             await pg.schema
                 .createTable("countries", (table) => {
                     // table.increments();
-                    table.string("name");
-                    table.string("code").unique().primary();
+                    table.string("country");
+                    table.string("country_id").unique().primary();
                 })
                 .then(async () => {
                     console.log("created table countries");
                     console.log("filling table countries...");
                     const countries = Helpers.getCountries();
                     countries.forEach(async (country) => {
-                        await pg.table("countries").insert({ name: country.name, code: country.code });
+                        await pg.table("countries").insert({ country: country.country, country_id: country.country_id });
                     });
                     console.log("table countries filled");
                 })
@@ -116,7 +145,7 @@ async function initialiseTables() {
                         table.uuid("uuid");
                         table.string("name");
                         table.string("website_url");
-                        table.string("country_id").references("code").inTable("countries");
+                        table.string("country_id").references("country_id").inTable("countries");
                     })
                     .then(async () => {
                         console.log("created table publications");
