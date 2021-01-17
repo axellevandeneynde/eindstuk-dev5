@@ -36,5 +36,13 @@ describe('end-to-end CRUD publication', () => {
                 name: 'de morgen',
             });
         expect(await res.statusCode).toEqual(200)
+        const data = await request.get('/sources/NL')
+        let publicationWasDelted = true;
+        data.body.publication.forEach(d => {
+            if (d.name == 'de morgen') {
+                publicationWasDelted = false;
+            }
+        })
+        expect(publicationWasDelted).toBe(true)
     })
 })
