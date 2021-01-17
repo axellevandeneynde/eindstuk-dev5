@@ -2,10 +2,18 @@ const { v4: uuidv4 } = require('uuid');
 const validator = require('validator');
 
 const Helpers = {
+    /**
+* generate uuid
+* @returns: {string} uuid
+*/
     generateUUID: () => {
         const uuid = uuidv4();
         return uuid;
     },
+    /**
+* get a list of all countries
+* @returns: {Object[]} countries - coountries with name (country) and code (country_id)
+*/
     getCountries: () => {
         // https://gist.github.com/Keeguon/2310008
         return [{
@@ -982,7 +990,15 @@ const Helpers = {
         }
         ]
     },
-    checkIfValidSourceObject: (source) => {
+    /**
+* Validate source object
+* @params: {Object} [publication] 
+* @params: {string} [publication.name]
+* @params: {string} [publication.country_id]
+* @params: {string} [publication.website_url]
+* @returns: {boolean} 
+*/
+    isValidSourceObject: (source) => {
         if (Object.prototype.toString.call(source) != '[object Object]') {
             return false
         }
@@ -991,13 +1007,17 @@ const Helpers = {
         const hasUrl = source.hasOwnProperty('website_url');
 
         if (hasName && hasCountryId && hasUrl) {
-            return Helpers.checkIfValidCountryId(source.country_id)
+            return Helpers.isValidCountryId(source.country_id)
         } else {
             return false
         }
     },
-
-    checkIfValidCountryId: (id) => {
+    /**
+    * Validate country id
+    * @params: {string} [uuid] 
+    * @returns: {boolean}
+    */
+    isValidCountryId: (id) => {
         const countries = Helpers.getCountries();
         let validCountry_id = false;
         countries.forEach(country => {
@@ -1007,7 +1027,13 @@ const Helpers = {
         });
         return validCountry_id;
     },
-    checkIfValidPublicationNameObject: (req) => {
+    /**
+* Validate publication name object
+* @params: {Object} [publication] 
+* @params: {string} [publication.name]
+* @returns: {object} message with uuid 
+*/
+    isValidPublicationNameObject: (req) => {
         if (Object.prototype.toString.call(req) != '[object Object]') {
             return false
         }
