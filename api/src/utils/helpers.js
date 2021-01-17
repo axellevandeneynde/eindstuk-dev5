@@ -998,7 +998,7 @@ const Helpers = {
 * @params: {string} [publication.website_url]
 * @returns: {boolean} 
 */
-    checkIfValidSourceObject: (source) => {
+    isValidSourceObject: (source) => {
         if (Object.prototype.toString.call(source) != '[object Object]') {
             return false
         }
@@ -1007,7 +1007,7 @@ const Helpers = {
         const hasUrl = source.hasOwnProperty('website_url');
 
         if (hasName && hasCountryId && hasUrl) {
-            return Helpers.checkIfValidCountryId(source.country_id)
+            return Helpers.isValidCountryId(source.country_id)
         } else {
             return false
         }
@@ -1017,7 +1017,7 @@ const Helpers = {
     * @params: {string} [uuid] 
     * @returns: {boolean}
     */
-    checkIfValidCountryId: (id) => {
+    isValidCountryId: (id) => {
         const countries = Helpers.getCountries();
         let validCountry_id = false;
         countries.forEach(country => {
@@ -1033,7 +1033,7 @@ const Helpers = {
 * @params: {string} [publication.name]
 * @returns: {object} message with uuid 
 */
-    checkIfValidPublicationNameObject: (req) => {
+    isValidPublicationNameObject: (req) => {
         if (Object.prototype.toString.call(req) != '[object Object]') {
             return false
         }

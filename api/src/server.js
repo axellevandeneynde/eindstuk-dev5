@@ -34,7 +34,7 @@ app.post('/add-new-source', async (req, res) => {
     await initialiseTables();
     console.log('handling request /add-new-source');
     let newSource = req.body;
-    if (Helpers.checkIfValidSourceObject(newSource)) {
+    if (Helpers.isValidSourceObject(newSource)) {
         newSource.uuid = Helpers.generateUUID();
         newSource.country_id = newSource.country_id.toUpperCase();
         pg.table('publications')
@@ -55,7 +55,7 @@ app.post('/add-new-source', async (req, res) => {
 */-
     app.get('/sources/:country_id', async (req, res) => {
         await initialiseTables();
-        if (Helpers.checkIfValidCountryId(req.params.country_id)) {
+        if (Helpers.isValidCountryId(req.params.country_id)) {
             pg.from('publications')
                 .select(['name', 'website_url', 'country_id'])
                 .where({ 'country_id': req.params.country_id.toUpperCase() })
@@ -78,7 +78,7 @@ app.post('/add-new-source', async (req, res) => {
 */
 app.post('/delete-publication', async (req, res) => {
     await initialiseTables();
-    if (Helpers.checkIfValidPublicationNameObject(req.body)) {
+    if (Helpers.isValidPublicationNameObject(req.body)) {
         await pg.from('publications').where({ name: req.body.name }).del();
         res.status(200).send({ message: 'delete request handled' })
     } else {
@@ -148,7 +148,7 @@ app.get('/get-all-countries', async (req, res) => {
 app.get('/delete-country/:country_id', async (req, res) => {
     await initialiseTables();
     console.log('handling request /delete-all-countries')
-    if (Helpers.checkIfValidCountryId(req.params.country_id)) {
+    if (Helpers.isValidCountryId(req.params.country_id)) {
         await pg.from('publications').where({ country_id: req.params.country_id }).del();
         await pg.from('countries').where({ country_id: req.params.country_id }).del();
         res.status(200).send({ message: 'delete request handled' })
