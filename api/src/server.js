@@ -71,7 +71,7 @@ app.post('/add-new-source', async (req, res) => {
 /**
 * Endpoint (post) to delete publication/source
 * @params: {Object} publication - request body
-* @params: {string} [publication.name]
+* @params: {string} publication.name
 * @params: {string} [publication.country_id]
 * @params: {string} [publication.website_url]
 * @returns: {object} message - response body
