@@ -109,3 +109,16 @@ describe('/get-all-countries api endpoint', () => {
         expect(await res.statusCode).toEqual(200)
     })
 })
+
+describe('/delete-country/:country_id endpoint', () => {
+    test('should not accept non existing country ID', async () => {
+        const res = await request
+            .get('/delete-country/LAP')
+        expect(await res.statusCode).toEqual(400)
+    })
+    test('should respond data if existing country ID', async () => {
+        const res = await request
+            .get('/delete-country/BE')
+        expect(await res.statusCode).toEqual(200)
+    })
+})
