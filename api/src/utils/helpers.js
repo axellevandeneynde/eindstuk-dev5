@@ -2,10 +2,18 @@ const { v4: uuidv4 } = require('uuid');
 const validator = require('validator');
 
 const Helpers = {
+    /**
+* generate uuid
+* @returns: {string} uuid
+*/
     generateUUID: () => {
         const uuid = uuidv4();
         return uuid;
     },
+    /**
+* get a list of all countries
+* @returns: {Object[]} countries - coountries with name (country) and code (country_id)
+*/
     getCountries: () => {
         // https://gist.github.com/Keeguon/2310008
         return [{
@@ -982,6 +990,14 @@ const Helpers = {
         }
         ]
     },
+    /**
+* Validate source object
+* @params: {Object} [publication] 
+* @params: {string} [publication.name]
+* @params: {string} [publication.country_id]
+* @params: {string} [publication.website_url]
+* @returns: {boolean} 
+*/
     checkIfValidSourceObject: (source) => {
         if (Object.prototype.toString.call(source) != '[object Object]') {
             return false
@@ -996,7 +1012,11 @@ const Helpers = {
             return false
         }
     },
-
+    /**
+    * Validate country id
+    * @params: {string} [uuid] 
+    * @returns: {boolean}
+    */
     checkIfValidCountryId: (id) => {
         const countries = Helpers.getCountries();
         let validCountry_id = false;
@@ -1007,6 +1027,12 @@ const Helpers = {
         });
         return validCountry_id;
     },
+    /**
+* Validate publication name object
+* @params: {Object} [publication] 
+* @params: {string} [publication.name]
+* @returns: {object} message with uuid 
+*/
     checkIfValidPublicationNameObject: (req) => {
         if (Object.prototype.toString.call(req) != '[object Object]') {
             return false
