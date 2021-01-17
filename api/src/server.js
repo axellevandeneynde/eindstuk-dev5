@@ -89,10 +89,21 @@ app.post('/update-publication/:uuid', async (req, res) => {
 
 app.get('/get-all-publications', async (req, res) => {
     await initialiseTables();
-    console.log('handling request /get-all')
+    console.log('handling request /get-all-publications')
     await pg.select('*')
         .from('publications')
         .join('countries', 'countries.country_id', '=', 'publications.country_id')
+        .then(data => {
+            res.status(200).send(data);
+        })
+
+})
+
+app.get('/get-all-countries', async (req, res) => {
+    await initialiseTables();
+    console.log('handling request /get-all-countries')
+    await pg.from('countries')
+        .select('*')
         .then(data => {
             res.status(200).send(data);
         })
