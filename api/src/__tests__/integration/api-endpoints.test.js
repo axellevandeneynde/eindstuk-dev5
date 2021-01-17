@@ -101,3 +101,11 @@ describe('/get-all-publications api endpoint', () => {
         expect(await res.statusCode).toEqual(200)
     })
 })
+
+describe('/get-all-countries api endpoint', () => {
+    test('should respond to valid request positively', async () => {
+        const res = await request
+            .get('/get-all-countries')
+        expect(await res.statusCode).toEqual(200)
+    })
+})
