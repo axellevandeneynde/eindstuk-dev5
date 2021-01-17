@@ -93,3 +93,32 @@ describe('/update-publication with uuid', () => {
         expect(await res.statusCode).toEqual(400)
     })
 })
+
+describe('/get-all-publications api endpoint', () => {
+    test('should respond to valid request positively', async () => {
+        const res = await request
+            .get('/get-all-publications')
+        expect(await res.statusCode).toEqual(200)
+    })
+})
+
+describe('/get-all-countries api endpoint', () => {
+    test('should respond to valid request positively', async () => {
+        const res = await request
+            .get('/get-all-countries')
+        expect(await res.statusCode).toEqual(200)
+    })
+})
+
+describe('/delete-country/:country_id endpoint', () => {
+    test('should not accept non existing country ID', async () => {
+        const res = await request
+            .get('/delete-country/LAP')
+        expect(await res.statusCode).toEqual(400)
+    })
+    test('should respond data if existing country ID', async () => {
+        const res = await request
+            .get('/delete-country/BE')
+        expect(await res.statusCode).toEqual(200)
+    })
+})

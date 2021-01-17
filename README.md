@@ -11,7 +11,6 @@ The API will be available on [127.0.0.1:3000](127.0.0.1:3000)
 
 Please note that, except for a list of countries, the database will be empty. 
 ### Query the API
-A list of all country ID's can be found [here](https://github.com/axellevandeneynde/eindstuk-dev5/blob/main/api/src/utils/helpers.js).
 
 **Add a new news organization:**
 
@@ -29,6 +28,18 @@ with the body in the following format:
 
 GET /sources/:country_id
 
+**Get all news organizations:**
+
+GET /get-all-publications
+
+**Get all countries with their ID's:**
+
+GET /get-all-countries
+
+**Update news organization:**
+
+GET /update-publication/:uuid
+
 **Delete news organization by name:**
 
 POST /delete-publication
@@ -39,20 +50,24 @@ with at least the following property in the body:
     name: ""
 } 
 ```
+**Delete country:**
+
+GET /delete-country/:country_id
+
 ## I need help!
 
 please contact me at axelle.vanden.eynde@student.ehb.be if google is unable to find your answer. 
 
 ## I want to contribute
 
-Good! Please read the [contribution guidelines]() to get yourself started.
+Good! Please read the [contribution guidelines](https://github.com/axellevandeneynde/eindstuk-dev5/blob/main/CONTRIBUTING.md) to get yourself started.
 
 ## Tech stack
-server: [express.js](https://expressjs.com/)
-testing: [jest](https://jestjs.io/)
-database: [postgreSQL](https://www.postgresql.org/) whith [knex.js](http://knexjs.org/) for queries.
-build: [Docker](https://docker.com)
-ci: [circleci](https://circleci.com/)
+- server: [express.js](https://expressjs.com/)
+- testing: [jest](https://jestjs.io/)
+- database: [postgreSQL](https://www.postgresql.org/) whith [knex.js](http://knexjs.org/) for - queries.
+- build: [Docker](https://docker.com)
+- ci: [circleci](https://circleci.com/)
 ## Testing
 all test can be found in `/api/src/__tests__`. You can run them by using the `npm run test` command in `/api`.
 
