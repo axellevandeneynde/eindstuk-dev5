@@ -93,3 +93,11 @@ describe('/update-publication with uuid', () => {
         expect(await res.statusCode).toEqual(400)
     })
 })
+
+describe('/get-all api endpoint', () => {
+    test('should respond to valid request positively', async () => {
+        const res = await request
+            .get('/get-all')
+        expect(await res.statusCode).toEqual(200)
+    })
+})
